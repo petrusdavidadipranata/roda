@@ -44,7 +44,7 @@
     let {id, ...rest} = winner;
     results.update(r => [...r, {...rest, id: Math.random()}]);
 
-    setTimeout(() => winPopup.set(true), 1100);
+    setTimeout(() => winPopup.set(true), 11000);
   }
 
   $: $entries, $advancedMode, entries.update(updateEntries);
@@ -91,7 +91,7 @@
   }
 
   .wheel {
-    transition: transform 1s;
+    transition: transform 10s;
     transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
   }
 
