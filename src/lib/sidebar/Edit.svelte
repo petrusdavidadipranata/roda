@@ -9,7 +9,7 @@
   }
 
   const sort = () => {
-    entries.update(e => e.sort((a, b) => a.name > b.name));
+    entries.update(e => e.sort((a, b) => a.name > b.name ? 1 : -1));
   }
 
   const toggleAdvannced = () => {

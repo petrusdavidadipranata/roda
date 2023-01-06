@@ -3,7 +3,7 @@
   import { results, resultsTab } from "$lib/stores.js";
 
   const sort = () => {
-    results.update(r => r.sort((a, b) => a.name > b.name));
+    results.update(r => r.sort((a, b) => a.name > b.name ? 1 : -1));
   }
 
   const clear = () => {
