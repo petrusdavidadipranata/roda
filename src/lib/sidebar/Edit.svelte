@@ -1,6 +1,6 @@
 <script>
   import { slide } from "svelte/transition";
-  import { entries, editTab, advancedMode } from "$lib/stores.js";
+  import { entries, editTab, advancedMode, uploadPopup } from "$lib/stores.js";
 
   import Button from "./Button.svelte";
 
@@ -16,6 +16,10 @@
     advancedMode.update(m => !m);
   }
 
+  const upload = () => {
+    uploadPopup.set(true);
+  }
+
   const removeEntry = i => {
     entries.update(e => {e.splice(i, 1); return e})
   }
@@ -26,10 +30,11 @@
 </script>
 
 <div class="absolute transition-all duration-500 top-0 sm:w-128 w-full {$editTab ? "left-0" : "sm:-left-128 -left-full"}">
-  <div class="mx-6 my-4 flex gap-4">
+  <div class="mx-6 my-4 flex justify-between gap-4">
     <Button icon="shuffle" text="Shuffle" on:click={shuffle} />
     <Button icon="arrow-up-a-z" text="Sort" on:click={sort} />
     <Button icon="code-branch" text="Advanced" on:click={toggleAdvannced} advancedBtn/>
+    <Button icon="arrow-up-from-bracket" text="Upload" on:click={upload} />
   </div>
   
   <div class="px-6 my-6 pb-10 overflow-scroll max-h-[calc(100vh-184px)]">

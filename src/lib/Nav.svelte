@@ -1,11 +1,61 @@
 <script>
-  import { helpPopup } from "$lib/stores.js";
+  import { helpPopup, Xpages, Xcurrent, entries, uploadPopup } from "$lib/stores.js";
+  import { fade } from "svelte/transition";
+
+  let dropdown = false;
+
+  const setTable = () => {
+    if (!$Xpages[$Xcurrent]) return
+
+    let table = $Xpages[$Xcurrent]._rows.map(row => {
+      return row._cells.map(cell => cell._value.model.value);
+    })
+
+    let parsed = table.map(r => {
+      if (r[0].toLowerCase().startsWith("name")) return;
+
+      let prob = r[1] == undefined ? 1 : r[1];
+
+      return { name: r[0], prob, id: Math.random()}
+    }).filter(n => n);
+
+    if (!parsed.length) return;
+
+    entries.set(parsed);
+  }
+
+  $: $Xcurrent, setTable();
 </script>
 
-<div class="bg-blue-600 w-screen h-14 flex justify-between">
+<div class="bg-blue-600 w-screen h-14 flex">
   <a href="/" class="flex gap-4 items-center py-3 px-7 w-[15.5rem] hover:bg-blue-500 transition">
     <img src="/logo.png" alt="" class="h-full">
     <h1 class="text-lg font-medium text-white">Wheel Of Names</h1>
   </a>
+  <div class="grow" />
+  {#if $Xpages.length}
+  <div>
+    <button class="text-white hover:bg-blue-500 py-auto px-7 transition h-full" on:click={() => dropdown = !dropdown}>
+      {$Xpages[$Xcurrent].name}
+      <i class="fa-solid fa-angle-down ml-2 transition duration-300 {dropdown ? "rotate-180" : ""}"></i>
+    </button>
+    {#if dropdown}
+    <button class="absolute block top-14 left-0 w-full h-full z-30" on:click={() => dropdown = false}/>
+    <div class="relative">
+      <div class="absolute top-0 right-0 bg-white shadow-lg flex flex-col z-40 rounded-md overflow-hidden" transition:fade={{duration:100}}>
+        {#each $Xpages as page, i (page.id)}
+        {#if i != $Xcurrent}
+        <button class="px-6 py-2.5 text-gray-600 hover:bg-gray-200/80 transition text-left" on:click={() => {Xcurrent.set(i); dropdown=false;}}>
+          {page.name}
+        </button>
+        {/if}
+        {/each}
+      </div>
+    </div>
+    {/if}
+  </div>
+  {:else}
+  <button class="text-white hover:bg-blue-500 py-auto px-7 transition" on:click={() => uploadPopup.set(true)}>Upload</button>
+  {/if}
   <button class="text-white hover:bg-blue-500 py-auto px-7 transition" on:click={() => helpPopup.set(true)}>Help</button>
 </div>

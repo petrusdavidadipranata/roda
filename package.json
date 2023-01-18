@@ -17,5 +17,10 @@
 		"tailwindcss": "^3.2.4",
 		"vite": "^4.0.0"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"exceljs": "^4.3.0",
+		"svelte-file-dropzone": "^1.0.0",
+		"svelte-french-toast": "^1.0.3"
+	}
 }

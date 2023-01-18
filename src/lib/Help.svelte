@@ -9,7 +9,7 @@
   }
 </script>
 
-<button class="absolute inset-0 z-20 bg-black/30 grid place-items-center w-screen cursor-default" on:click={close} transition:fade duration=100>
+<button class="absolute inset-0 z-20 bg-black/30 grid place-items-center w-screen cursor-default" on:click={close} transition:fade={{duration:200}}>
   <div class="px-10 w-full">
     <div class="sm:w-[34rem] z-100 rounded-xl overflow-hidden text-left mx-auto">
       <div class="flex justify-between items-center px-6 py-4 text-xl text-white bg-blue-600">
@@ -32,6 +32,9 @@
           </li>
           <li>
             If you want to see the results, click on the <i>Results</i> tab.
+          </li>
+          <li>
+            The <span class="bg-gray-200 text-gray-600 px-2 py-1 rounded-sm">Upload</span> feature is still in Beta...
           </li>
         </ul>
         <div class="flex justify-end gap-4 -mr-1.5">

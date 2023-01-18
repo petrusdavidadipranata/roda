@@ -26,7 +26,7 @@
   }
 </script>
 
-<button class="absolute inset-0 z-20 bg-black/30 grid place-items-center w-screen cursor-default" on:click={close} transition:fade duration=100>
+<button class="absolute inset-0 z-20 bg-black/30 grid place-items-center w-screen cursor-default" on:click={close} transition:fade={{duration:200}}>
   <div class="px-10 w-full">
     <div class="sm:w-[34rem] z-100 rounded-xl overflow-hidden text-left mx-auto">
       <div class="flex justify-between items-center px-6 py-4 text-xl text-white" style="background-color: {$entries[$winnerIndex]?.color};">
