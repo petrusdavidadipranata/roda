@@ -11,6 +11,24 @@
   const close = () => {
     uploadPopup.set(false);
   }
+
+  const parseExcel = wb => {
+    return wb.map(table => {
+      let { name } = table;
+
+      table = table._rows.map(row => {
+        return row._cells.map(cell => cell._value.model.value);
+      });
+
+      table =  table.map(r => {
+        if (r[0].toLowerCase().startsWith("name")) return;
+        let prob = r[1] == undefined ? 1 : r[1];
+        return { name: r[0], prob, id: Math.random()}
+      }).filter(n => n);
+
+      return { name, table };
+    });
+  }
   
   const uploadFile = async ({ detail: { acceptedFiles } }) => {
     if (!acceptedFiles.length) return toast.error("Only .xlsx files are accepted. Try again...");
@@ -21,7 +39,8 @@
 
     await wb.xlsx.load(await file.arrayBuffer());
 
-    Xpages.set(wb.worksheets);
+    Xpages.set(parseExcel(wb.worksheets));
+
     Xcurrent.set(-1);
     Xcurrent.set(0);
 

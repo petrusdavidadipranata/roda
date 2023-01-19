@@ -4,27 +4,12 @@
 
   let dropdown = false;
 
-  const setTable = () => {
-    if (!$Xpages[$Xcurrent]) return
-
-    let table = $Xpages[$Xcurrent]._rows.map(row => {
-      return row._cells.map(cell => cell._value.model.value);
-    })
-
-    let parsed = table.map(r => {
-      if (r[0].toLowerCase().startsWith("name")) return;
-
-      let prob = r[1] == undefined ? 1 : r[1];
-
-      return { name: r[0], prob, id: Math.random()}
-    }).filter(n => n);
-
-    if (!parsed.length) return;
-
-    entries.set(parsed);
-  }
-
-  $: $Xcurrent, setTable();
+  Xcurrent.subscribe(i => {
+    if (!$Xpages[i]) return;
+    
+    let { table } = $Xpages[i];
+    entries.set(table);
+  })
 </script>
 
 <div class="bg-blue-600 w-screen h-14 flex">
@@ -43,10 +28,10 @@
     <button class="absolute block top-14 left-0 w-full h-full z-30" on:click={() => dropdown = false}/>
     <div class="relative">
       <div class="absolute top-0 right-0 bg-white shadow-lg flex flex-col z-40 rounded-md overflow-hidden" transition:fade={{duration:100}}>
-        {#each $Xpages as page, i (page.id)}
+        {#each $Xpages as { name }, i}
         {#if i != $Xcurrent}
-        <button class="px-6 py-2.5 text-gray-600 hover:bg-gray-200/80 transition text-left" on:click={() => {Xcurrent.set(i); dropdown=false;}}>
-          {page.name}
+        <button class="px-6 py-2.5 text-gray-600 hover:bg-gray-200/80 transition text-left whitespace-nowrap" on:click={() => {Xcurrent.set(i); dropdown=false;}}>
+          {name}
         </button>
         {/if}
         {/each}

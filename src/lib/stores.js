@@ -1,6 +1,6 @@
 import { writable, readable, derived } from "svelte/store";
 
-let def = [
+export let def = [
   { name: "Ali", prob: 1, id: Math.random() },
   { name: "Beatriz", prob: 1, id: Math.random() },
   { name: "Charles", prob: 1, id: Math.random() },
@@ -12,15 +12,14 @@ let def = [
 ]
 
 export let entries = writable(def);
+export let Xpages = writable([]);
+export let Xcurrent = writable(0);
 
 export let totalProb = derived(entries, $entries => {
   return $entries.reduce((p, c) => p + c.prob, 0)
 });
 
 export let results = writable([]);
-
-export let Xpages = writable([]);
-export let Xcurrent = writable(0);
 
 export let sidebarActive = writable(false);
 export let editTab = writable(true);

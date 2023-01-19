@@ -1,6 +1,6 @@
 <script>
   import { slide } from "svelte/transition";
-  import { entries, editTab, advancedMode, uploadPopup } from "$lib/stores.js";
+  import { entries, editTab, advancedMode, uploadPopup, Xpages, Xcurrent, def } from "$lib/stores.js";
 
   import Button from "./Button.svelte";
 
@@ -27,6 +27,12 @@
   const addEntry = () => {
     entries.update(e => [...e, { name:"", prob: 1, id: Math.random() }]);
   }
+
+  const reset = () => {
+    entries.set(def);
+    Xpages.set([]);
+    Xcurrent.set(0);
+  }
 </script>
 
 <div class="absolute transition-all duration-500 top-0 sm:w-128 w-full {$editTab ? "left-0" : "sm:-left-128 -left-full"}">
@@ -34,7 +40,11 @@
     <Button icon="shuffle" text="Shuffle" on:click={shuffle} />
     <Button icon="arrow-up-a-z" text="Sort" on:click={sort} />
     <Button icon="code-branch" text="Advanced" on:click={toggleAdvannced} advancedBtn/>
+    {#if $Xpages.length}
+    <Button icon="xmark" text="Reset" on:click={reset} />
+    {:else}
     <Button icon="arrow-up-from-bracket" text="Upload" on:click={upload} />
+    {/if}
   </div>
   
   <div class="px-6 my-6 pb-10 overflow-scroll max-h-[calc(100vh-184px)]">

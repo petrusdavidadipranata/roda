@@ -1,5 +1,6 @@
 <script>
   import { entries, totalProb, results, rotation, sidebarActive, wheelActive, advancedMode, winPopup, winnerIndex, colors } from "$lib/stores.js";
+  import { onMount } from "svelte";
   
   const updateEntries = storeValue => {
     let shift = 0;
@@ -15,12 +16,12 @@
 
       let rad = angle * Math.PI / 180;
 
-      let p0x = 40 + Math.cos(rad/2) * 40;
-      let p0y = 40 - Math.sin(rad/2) * 40;
-      let p1x = 40 + Math.cos(rad/2) * 40;
-      let p1y = 40 + Math.sin(rad/2) * 40;
+      let p0x = Math.cos(rad/2) * 500;
+      let p0y = -Math.sin(rad/2) * 500;
+      let p1x = Math.cos(rad/2) * 500;
+      let p1y = Math.sin(rad/2) * 500;
 
-      return { ...e, angle, p0x, p0y, p1x, p1y, rotate, color };
+      return { ...e, angle, p0: [p0x, p0y], p1: [p1x, p1y], rotate, color };
     });
 
     if (storeValue.length % $colors.length === 1) {
@@ -54,24 +55,61 @@
     setTimeout(() => winPopup.set(true), 11000);
   }
 
+  entries.update(updateEntries);
   $: $entries, $advancedMode, entries.update(updateEntries);
+
+  let ctx = false;
+
+  onMount(() => {
+    ctx = document.querySelector("canvas").getContext("2d");
+    ctx.translate(500,500)
+
+    entries.update(e => e);
+  })
+  
+  entries.subscribe(e => {
+    if (!ctx) return;
+
+    ctx.clearRect(-500,-500,500,500);
+    ctx.font = "40px Arial";
+
+    e.forEach(({ name, angle, p0, p1, color, rotate }) => {
+      if (!p0 || !p1) return;
+
+      ctx.rotate(rotate * Math.PI / 180);
+      ctx.beginPath();
+
+      ctx.moveTo(0, 0);
+      ctx.lineTo(...p0);
+      if (angle > 180) ctx.lineTo(-500, -500);
+      ctx.lineTo(500, -500);
+      ctx.lineTo(500, 500);
+      if (angle > 180) ctx.lineTo(-500, 500);
+      ctx.lineTo(...p1);
+
+      ctx.closePath();
+
+      ctx.fillStyle = color;
+      ctx.fill()
+
+      ctx.fillStyle = "white";
+      let w = ctx.measureText(name).width;
+      ctx.fillText(name, 280-w/3, 20)
+
+      ctx.rotate(-rotate * Math.PI / 180);
+    });
+  }); 
 </script>
 
 <div
-  class="wheel aspect-square rounded-full relative overflow-hidden shadow-lg h-[min(80vw,80vh)]"
-  style="transform: rotate({$rotation}deg)"
+  class="aspect-square rounded-full relative overflow-hidden h-[min(80vw,80vh)]"
 >
-  {#each $entries as { name, angle, p0x, p0y, p1x, p1y, rotate, color, id } (id)}
-    <div
-      class="grid grid-cols-2 place-items-center lg:gap-60 md:gap-40 sm:gap-28 gap-20 {angle > 180 ? "big" : ""}"
-      style="--rotate: {rotate}deg; --bg-color: {color}; --p0x:{p0x}; --p0y:{p0y}; --p1x:{p1x}; --p1y:{p1y};"
-    >
-      <span />
-      <span class="text-white lg:text-3xl md:text-2xl sm:text-xl font-semibold">
-        {name}
-      </span>
-    </div>
-  {/each}
+  <canvas
+    height="1000px"
+    width="1000px"
+    class="wheel h-full w-full"
+    style="transform: rotate({$rotation}deg)"
+  />
 </div>
 
 <button
@@ -81,7 +119,7 @@
 </button>
 
 <button
-  class="center rounded-full aspect-square transition h-[min(80vw,80vh)] hover:bg-black/20 disabled:bg-transparent"
+  class="center rounded-full aspect-square transition h-[min(80vw,80vh)] hover:bg-black/20 disabled:bg-transparent shadow-lg"
   on:click={spinWheel}
   disabled={$sidebarActive || $wheelActive}
 />
@@ -93,55 +131,8 @@
 />
 
 <style>
-  :root {
-    --40: min(40vw, 40vh);
-  }
-
   .wheel {
     transition: transform 10s;
     transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
-  }
-
-  .wheel div {
-    height: 100%;
-    width: 100%;
-    position: absolute;
-
-    --angle: 0deg;
-    --rotate: 0deg;
-    --bg-color: #000;
-
-    --p0x: 76.95;
-    --p0y: 24.69;
-    --p1x: 76.95;
-    --p1y: 55.43;
-
-    --point-0x: calc(var(--p0x) * min(1vh, 1vw));
-    --point-0y: calc(var(--p0y) * min(1vh, 1vw));
-    --point-1x: calc(var(--p1x) * min(1vh, 1vw));
-    --point-1y: calc(var(--p1y) * min(1vh, 1vw));
-
-    clip-path: polygon(
-      var(--40) var(--40),
-      var(--point-0x) var(--point-0y),
-      100% 0,
-      100% 100%,
-      var(--point-1x) var(--point-1y)
-    );
-
-    transform: rotate(var(--rotate));
-    background-color: var(--bg-color);
-  }
-
-  .wheel div.big {
-    clip-path: polygon(
-      var(--40) var(--40),
-      var(--point-0x) var(--point-0y),
-      0 0,
-      100% 0,
-      100% 100%,
-      0 100%,
-      var(--point-1x) var(--point-1y)
-    );
   }
 </style>
