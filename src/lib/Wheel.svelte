@@ -75,6 +75,7 @@
 
     e.forEach(({ name, angle, p0, p1, color, rotate }) => {
       if (!p0 || !p1) return;
+      if (!angle) return
 
       ctx.rotate(rotate * Math.PI / 180);
       ctx.beginPath();
