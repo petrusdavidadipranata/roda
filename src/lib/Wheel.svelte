@@ -94,7 +94,7 @@
 
       ctx.fillStyle = "white";
       let w = ctx.measureText(name).width;
-      ctx.fillText(name, 280-w/3, 20)
+      ctx.fillText(name, 280-w/3, 16)
 
       ctx.rotate(-rotate * Math.PI / 180);
     });
