@@ -21,8 +21,11 @@
       });
 
       table =  table.map(r => {
-        if (r[0].toLowerCase().startsWith("name")) return;
-        let prob = r[1] == undefined ? 1 : r[1];
+        if (!r[0]) return
+        if (r[0].toLowerCase().includes("name")) return;
+
+        let prob = Number(r[1]) == undefined ? 1 : Number(r[1]);
+
         return { name: r[0], prob, id: Math.random()}
       }).filter(n => n);
 

@@ -22,10 +22,12 @@
   <div>
     <button class="text-white hover:bg-blue-500 py-auto px-7 transition h-full" on:click={() => dropdown = !dropdown}>
       {$Xpages[$Xcurrent].name}
+      {#if $Xpages.length > 1}
       <i class="fa-solid fa-angle-down ml-2 transition duration-300 {dropdown ? "rotate-180" : ""}"></i>
+      {/if}
     </button>
     {#if dropdown}
-    <button class="absolute block top-14 left-0 w-full h-full z-30" on:click={() => dropdown = false}/>
+    <button class="absolute block top-14 left-0 w-full h-[calc(100vh-3.5rem)] z-30" on:click={() => dropdown = false}/>
     <div class="relative">
       <div class="absolute top-0 right-0 bg-white shadow-lg flex flex-col z-40 rounded-md overflow-hidden" transition:fade={{duration:100}}>
         {#each $Xpages as { name }, i}
