@@ -1,5 +1,5 @@
 <script>
-  import { helpPopup, winPopup, uploadPopup } from "$lib/stores.js";
+  import { helpPopup, winPopup, uploadPopup, colorPopup } from "$lib/stores.js";
   
   import Nav from "$lib/Nav.svelte";
   import Footer from "$lib/Footer.svelte";
@@ -10,6 +10,7 @@
   import Winner from "$lib/Winner.svelte";
   import Help from "$lib/Help.svelte";
   import Upload from "$lib/Upload.svelte";
+  import Colors from "$lib/Colors.svelte";
 </script>
 
 <Nav />
@@ -33,6 +34,10 @@
 
 {#if $uploadPopup}
 <Upload />
+{/if}
+
+{#if $colorPopup}
+<Colors />
 {/if}
 
 <Footer />

@@ -8,5 +8,5 @@
   class="{color} text-gray-600 px-4 py-1.5 rounded-md hover:{hoverColor} transition"
   on:click
 >
-  {text}
+  {@html text}
 </button>

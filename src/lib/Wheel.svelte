@@ -12,7 +12,7 @@
       let angle = $advancedMode ? trueAngle : safeAngle;
       shift += angle
       let rotate = shift - angle / 2;
-      let color = $colors[i % $colors.length];
+      let color = $colors[i % $colors.length].val;
 
       let rad = angle * Math.PI / 180;
 
@@ -25,7 +25,7 @@
     });
 
     if (storeValue.length % $colors.length === 1) {
-      storeValue[storeValue.length - 1].color = $colors[2];
+      storeValue[storeValue.length - 1].color = $colors[1].val;
     }
 
     return storeValue;
@@ -56,7 +56,7 @@
   }
 
   entries.update(updateEntries);
-  $: $entries, $advancedMode, entries.update(updateEntries);
+  $: $entries, $advancedMode, $colors, entries.update(updateEntries);
 
   let ctx = false;
 

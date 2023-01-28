@@ -1,6 +1,6 @@
 import { writable, readable, derived } from "svelte/store";
 
-export let def = [
+export let defEntries = [
   { name: "Ali", prob: 1, id: Math.random() },
   { name: "Beatriz", prob: 1, id: Math.random() },
   { name: "Charles", prob: 1, id: Math.random() },
@@ -11,7 +11,15 @@ export let def = [
   { name: "Hanna", prob: 1, id: Math.random() }
 ]
 
-export let entries = writable(def);
+export let defColors = [
+  { val: "#009925", id: Math.random() },
+  { val: "#eeb211", id: Math.random() },
+  { val: "#d50f25", id: Math.random() },
+  { val: "#3369e8", id: Math.random() }
+]
+
+export let entries = writable(defEntries);
+export let colors = writable(defColors);
 export let Xpages = writable([]);
 export let Xcurrent = writable(0);
 
@@ -30,14 +38,8 @@ export let advancedMode = writable(false);
 export let rotation = writable(0);
 
 export let helpPopup = writable(false);
+export let colorPopup = writable(false);
 export let winPopup = writable(false);
 export let uploadPopup = writable(false);
 
 export let winnerIndex = writable(0);
-
-export const colors = readable([
-  "#009925",
-  "#eeb211",
-  "#d50f25",
-  "#3369e8"
-]);

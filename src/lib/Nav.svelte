@@ -1,5 +1,5 @@
 <script>
-  import { helpPopup, Xpages, Xcurrent, entries, uploadPopup } from "$lib/stores.js";
+  import { helpPopup, Xpages, Xcurrent, entries, uploadPopup, defEntries } from "$lib/stores.js";
   import { fade } from "svelte/transition";
 
   let dropdown = false;
@@ -10,13 +10,21 @@
     let { table } = $Xpages[i];
     entries.set(table);
   })
+
+  const reset = () => {
+    entries.set(defEntries);
+    Xpages.set([]);
+    Xcurrent.set(0);
+
+    dropdown = false;
+  }
 </script>
 
 <div class="bg-blue-600 w-screen h-14 flex">
-  <a href="/" class="flex gap-4 items-center py-3 px-7 w-[15.5rem] hover:bg-blue-500 transition">
+  <div class="flex gap-4 items-center py-3 px-7 w-[15.5rem]">
     <img src="/logo.png" alt="" class="h-full">
     <h1 class="text-lg font-medium text-white">Wheel Of Names</h1>
-  </a>
+  </div>
   <div class="grow" />
   {#if $Xpages.length}
   <div>
@@ -32,11 +40,15 @@
       <div class="absolute top-0 right-0 bg-white shadow-lg flex flex-col z-40 rounded-md overflow-hidden" transition:fade={{duration:100}}>
         {#each $Xpages as { name }, i}
         {#if i != $Xcurrent}
-        <button class="px-6 py-2.5 text-gray-600 hover:bg-gray-200/80 transition text-left whitespace-nowrap" on:click={() => {Xcurrent.set(i); dropdown=false;}}>
+        <button class="px-6 py-2.5 text-gray-600 hover:bg-gray-200/80 transition text-middle whitespace-nowrap" on:click={() => {Xcurrent.set(i); dropdown=false;}}>
           {name}
         </button>
         {/if}
         {/each}
+        <button class="px-6 py-2.5 text-gray-600 hover:bg-gray-200/80 transition text-middle whitespace-nowrap" on:click={reset}>
+          <i class="fa-solid fa-arrows-rotate mr-1.5"></i>
+          Reset Names
+        </button>
       </div>
     </div>
     {/if}

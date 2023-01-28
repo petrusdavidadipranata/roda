@@ -24,7 +24,9 @@
         if (!r[0]) return
         if (r[0].toLowerCase().includes("name")) return;
 
-        let prob = Number(r[1]) == undefined ? 1 : Number(r[1]);
+        let prob = Number(r[1]);
+
+        prob = isNaN(prob) ? 1 : prob; 
 
         return { name: r[0], prob, id: Math.random()}
       }).filter(n => n);
