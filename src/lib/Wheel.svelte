@@ -108,7 +108,7 @@
   <canvas
     height="1000px"
     width="1000px"
-    class="wheel h-full w-full"
+    class="wheel h-full w-full rounded-full overflow-hidden"
     style="transform: rotate({$rotation}deg)"
   />
 </div>
