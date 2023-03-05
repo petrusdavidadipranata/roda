@@ -57,7 +57,7 @@
   <div class="px-10 w-full">
     <div class="sm:w-[34rem] z-100 rounded-xl overflow-hidden text-left mx-auto">
       <div class="flex justify-between items-center px-6 py-4 text-xl text-white bg-blue-600">
-        <h1>Upload - Import Names From Excel</h1>
+        <h1><i class="fa-solid fa-arrow-up-from-bracket mr-1.5"></i> Upload - Import Names From Excel</h1>
         <button class="fa-solid fa-xmark hover:text-gray-200" on:click={close}></button>
       </div>
       <div class="py-4 px-[1.125rem] bg-white pointer-events-auto">

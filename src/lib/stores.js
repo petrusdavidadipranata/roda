@@ -1,5 +1,6 @@
 import { writable, readable, derived } from "svelte/store";
 
+
 export let defEntries = [
   { name: "Ali", prob: 1, id: Math.random() },
   { name: "Beatriz", prob: 1, id: Math.random() },
@@ -23,23 +24,26 @@ export let colors = writable(defColors);
 export let Xpages = writable([]);
 export let Xcurrent = writable(0);
 
-export let totalProb = derived(entries, $entries => {
-  return $entries.reduce((p, c) => p + c.prob, 0)
-});
-
 export let results = writable([]);
 
 export let sidebarActive = writable(false);
 export let editTab = writable(true);
 export let resultsTab = derived(editTab, $editTab => !$editTab);
 export let wheelActive = writable(false);
-export let advancedMode = writable(false);
 
-export let rotation = writable(0);
+export let wheels = writable([{ id: "crbrgdf0f1", ctx: undefined, size: "w-[min(80vh,80vw)]", textSize: "30", rotation: 0 }]);
+export let wheelHover = writable(false);
+
+export let advancedMode = writable(false);
+export let groupMode = writable(false);
+export let uniqueMode = writable(false);
+export let groupSize = writable(2);
 
 export let helpPopup = writable(false);
 export let colorPopup = writable(false);
 export let winPopup = writable(false);
+export let groupPopup = writable(false);
 export let uploadPopup = writable(false);
 
 export let winnerIndex = writable(0);
+

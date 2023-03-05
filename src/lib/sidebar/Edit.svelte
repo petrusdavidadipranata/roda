@@ -18,6 +18,7 @@
 
   const removeEntry = i => {
     entries.update(e => {e.splice(i, 1); return e})
+    if (!$entries.length) entries.set([{ name: "", prob: 1, id: Math.random() }]);
   }
 
   const addEntry = () => {

@@ -1,7 +1,6 @@
 <script>
   import { fade, slide } from "svelte/transition";
   import { colorPopup, colors, defColors } from "$lib/stores.js";
-
   import Button from "./PopupBtn.svelte";
 
   const add = () => {
@@ -10,7 +9,6 @@
 
   const remove = i => {
     if ($colors.length <= 3) return;
-    
     colors.update(c => {c.splice(i, 1); return c})
   }
 

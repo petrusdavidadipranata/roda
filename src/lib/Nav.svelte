@@ -1,5 +1,5 @@
 <script>
-  import { helpPopup, Xpages, Xcurrent, entries, uploadPopup, defEntries } from "$lib/stores.js";
+  import { helpPopup, groupPopup, Xpages, Xcurrent, entries, uploadPopup, defEntries } from "$lib/stores.js";
   import { fade } from "svelte/transition";
 
   let dropdown = false;
@@ -56,5 +56,6 @@
   {:else}
   <button class="text-white hover:bg-blue-500 py-auto px-7 transition" on:click={() => uploadPopup.set(true)}>Upload</button>
   {/if}
+  <button class="text-white hover:bg-blue-500 py-auto px-7 transition" on:click={() => groupPopup.set(true)}>Group Mode</button>
   <button class="text-white hover:bg-blue-500 py-auto px-7 transition" on:click={() => helpPopup.set(true)}>Help</button>
 </div>

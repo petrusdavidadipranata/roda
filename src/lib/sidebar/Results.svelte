@@ -5,7 +5,7 @@
   import Button from "./Button.svelte";
 
   const sort = () => {
-    results.update(r => r.sort((a, b) => a.name > b.name ? 1 : -1));
+    results.update(r => r.sort((a, b) => a?.name > b?.name ? 1 : -1));
   }
 
   const clear = () => {
@@ -20,11 +20,22 @@
   </div>
   
   <div class="px-6 my-6 pb-10 overflow-scroll max-h-[calc(100vh-184px)]">
-    {#each $results as { name, color, id } (id)}
-    <div class="transition w-full mb-4 border-2 rounded-md px-3.5 py-1.5" style="border-color: {color};" out:slide>
-      {name}
+    {#each $results as result}
+    {#if result.constructor == Array}
+    <div class="w-full mb-4 border-2 rounded-xl px-3.5 pt-3.5 pb-0.5 border-gray-400" out:slide>
+      {#each result as r}
+      <div class="transition w-full mb-3 border-2 rounded-md px-3.5 py-1.5" style="border-color: {r.color};" out:slide>
+        -- {r.name}
+        <span class="text-white">_</span>
+      </div>
+      {/each}
+    </div>
+    {:else}
+    <div class="transition w-full mb-4 border-2 rounded-md px-3.5 py-1.5" style="border-color: {result.color};" out:slide>
+      {result.name}
       <span class="text-white">_</span>
     </div>
+    {/if}
     {/each}
   </div>
 </div>

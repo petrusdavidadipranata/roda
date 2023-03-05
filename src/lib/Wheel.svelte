@@ -1,56 +1,28 @@
 <script>
-  import { entries, totalProb, results, rotation, sidebarActive, wheelActive, advancedMode, winPopup, winnerIndex, colors } from "$lib/stores.js";
+  import { entries, sidebarActive, wheelActive, wheelHover, wheels, advancedMode, winPopup, winnerIndex, colors, groupSize, uniqueMode } from "$lib/stores.js";
   import { onMount } from "svelte";
+  import { updateEntries, drawWheel, pickName, draw } from "$lib/wheelFuncs.js";
+
   
-  const updateEntries = storeValue => {
-    let shift = 0;
-
-    storeValue = storeValue.map((e, i) => {
-      let trueAngle = (e.prob / $totalProb) * 360;
-      let safeAngle = 360 / storeValue.length;
-
-      let angle = $advancedMode ? trueAngle : safeAngle;
-      shift += angle
-      let rotate = shift - angle / 2;
-      let color = $colors[i % $colors.length].val;
-
-      let rad = angle * Math.PI / 180;
-
-      let p0x = Math.cos(rad/2) * 500;
-      let p0y = -Math.sin(rad/2) * 500;
-      let p1x = Math.cos(rad/2) * 500;
-      let p1y = Math.sin(rad/2) * 500;
-
-      return { ...e, angle, p0: [p0x, p0y], p1: [p1x, p1y], rotate, color };
-    });
-
-    if (storeValue.length % $colors.length === 1) {
-      storeValue[storeValue.length - 1].color = $colors[1].val;
-    }
-
-    return storeValue;
-  }
-
   const spinWheel = () => {
     wheelActive.set(true);
 
-    let rand = Math.random() * $totalProb;
-    let totalProb2 = 0;
-    let i;
-
-    for (i = 0; i < $entries.length; i++) {
-      totalProb2 += $entries[i].prob;
-      if (totalProb2 >= rand) break;
+    let winners = [];
+    for (let i=0; i<$wheels.length; i++) {
+      let w = pickName($entries, $uniqueMode ? [...winners] : []);
+      winners.push(w);
     }
 
-    winnerIndex.set(i);
-    let winner = $entries[i];
+    winnerIndex.set(winners);
 
-    let randAngle = (Math.random() - 0.5) * winner.angle;
-    rotation.update(r => r + 3600 - r%360 +  -(randAngle + winner.rotate));
+    wheels.update(wh => wh.map((w,i) => {
+      let r = w.rotation;
+      let winner = $entries[winners[i]];
+      let randAngle = (Math.random() - 0.5) * winner.angle;
 
-    let {id, ...rest} = winner;
-    results.update(r => [...r, {...rest, id: Math.random()}]);
+      w.rotation = r + 3600 - r%360 -(randAngle + winner.rotate);
+      return w;
+    }))
 
     setTimeout(() => winPopup.set(true), 11000);
   }
@@ -58,78 +30,51 @@
   entries.update(updateEntries);
   $: $entries, $advancedMode, $colors, entries.update(updateEntries);
 
-  let ctx = false;
+  onMount(draw);
 
-  onMount(() => {
-    ctx = document.querySelector("canvas").getContext("2d");
-    ctx.translate(500,500)
-
-    entries.update(e => e);
-  })
-  
   entries.subscribe(e => {
-    if (!ctx) return;
-
-    ctx.clearRect(-500,-500,500,500);
-    ctx.font = "40px Arial";
-
-    e.forEach(({ name, angle, p0, p1, color, rotate }) => {
-      if (!p0 || !p1) return;
-      if (!angle) return
-
-      ctx.rotate(rotate * Math.PI / 180);
-      ctx.beginPath();
-
-      ctx.moveTo(0, 0);
-      ctx.lineTo(...p0);
-      if (angle > 180) ctx.lineTo(-500, -500);
-      ctx.lineTo(500, -500);
-      ctx.lineTo(500, 500);
-      if (angle > 180) ctx.lineTo(-500, 500);
-      ctx.lineTo(...p1);
-
-      ctx.closePath();
-
-      ctx.fillStyle = color;
-      ctx.fill()
-
-      ctx.fillStyle = "white";
-      let w = ctx.measureText(name).width;
-      ctx.fillText(name, 300-w/3, 16)
-
-      ctx.rotate(-rotate * Math.PI / 180);
+    $wheels.forEach(w => {
+      drawWheel(e, w.ctx);
     });
-  }); 
+
+    groupSize.set(Math.min($groupSize, e.length));
+  });
 </script>
 
-<div
-  class="aspect-square rounded-full relative overflow-hidden h-[min(80vw,80vh)]"
->
-  <canvas
-    height="1000px"
-    width="1000px"
-    class="wheel h-full w-full rounded-full overflow-hidden"
-    style="transform: rotate({$rotation}deg)"
-  />
+<div class="flex gap-16 flex-wrap justify-center items-center mt-8 mb-20">
+  {#each $wheels as { id, ctx, size, textSize, rotation } (id)}
+  <div class="aspect-square {size} relative">
+    <div class="rounded-full overflow-hidden">
+      <canvas
+        height="1000px"
+        width="1000px"
+        class="wheel h-full w-full rounded-full overflow-hidden bg-gray-200"
+        {id}
+        style="transform: rotate({rotation}deg)"
+      />
+    </div>
+
+    <div class="center bg-white rounded-full aspect-square grid place-items-center font-bold text-gray-400 uppercase h-[20%]" style="font-size: {textSize}px;">
+      Spin
+    </div>
+
+    <button
+      class="center rounded-full aspect-square grid place-items-center h-full w-full {$wheelHover ? "bg-black/20" : ""} disabled:bg-transparent transition"
+      on:click={spinWheel}
+      on:mouseenter={() => wheelHover.set(true)}
+      on:mouseleave={() => wheelHover.set(false)}
+      disabled={$sidebarActive || $wheelActive}
+    />
+
+    <img
+      src="/triangle.png"
+      alt=""
+      class="absolute top-1/2 right-[-11%] h-[12%]"
+      style="transform: translateY(-50%) translateX(-50%);"
+    />
+  </div>
+  {/each}
 </div>
-
-<button
-  class="center rounded-full bg-white aspect-square grid place-items-center font-bold text-gray-400 uppercase md:text-4xl sm:text-3xl text-xl h-[min(15vw,15vh)]"
->
-  Spin
-</button>
-
-<button
-  class="center rounded-full aspect-square transition h-[min(80vw,80vh)] hover:bg-black/20 disabled:bg-transparent shadow-lg"
-  on:click={spinWheel}
-  disabled={$sidebarActive || $wheelActive}
-/>
-
-<img
-  src="/triangle.png"
-  alt=""
-  class="center left-[calc(100vw-50vw+min(40vh,40vw))] md:h-20 sm:h-16 h-12"
-/>
 
 <style>
   .wheel {
