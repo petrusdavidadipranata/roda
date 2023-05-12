@@ -43,7 +43,7 @@
 
 <div class="flex gap-16 flex-wrap justify-center items-center mt-8 mb-20">
   {#each $wheels as { id, ctx, size, textSize, rotation } (id)}
-  <div class="aspect-square {size} relative">
+  <div class="aspect-square relative" style="width: {size}">
     <div class="rounded-full overflow-hidden">
       <canvas
         height="1000px"

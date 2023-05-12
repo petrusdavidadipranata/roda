@@ -31,7 +31,7 @@ export let editTab = writable(true);
 export let resultsTab = derived(editTab, $editTab => !$editTab);
 export let wheelActive = writable(false);
 
-export let wheels = writable([{ id: "crbrgdf0f1", ctx: undefined, size: "w-[min(80vh,80vw)]", textSize: "30", rotation: 0 }]);
+export let wheels = writable([{ id: "crbrgdf0f1", ctx: undefined, size: "min(80vh,80vw)", textSize: "30", rotation: 0 }]);
 export let wheelHover = writable(false);
 
 export let advancedMode = writable(false);

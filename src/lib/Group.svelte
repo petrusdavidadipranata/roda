@@ -8,6 +8,11 @@
   let unique = $uniqueMode;
   let size = $groupSize;
 
+  const sizeWidth = [
+    undefined, undefined,
+    600, 500, 400, 350
+  ]
+
   const close = () => {
     groupPopup.set(false);
   }
@@ -25,6 +30,7 @@
     if (!size || size === 1) size = 2;
 
     size = Math.min(size, $entries.length);
+    if (size >= sizeWidth.length) sizeWidth[size] = 350
 
     groupMode.set(group);
     uniqueMode.set(unique && group);
@@ -32,7 +38,7 @@
     groupPopup.set(false);
 
     if (!group) {
-      wheels.set([{ id: "crbrgdf0f1", ctx: undefined, size: "w-[min(80vh,80vw)]", textSize: "15", rotation: 0 }]);
+      wheels.set([{ id: "crbrgdf0f1", ctx: undefined, size: "min(80vh,80vw)", textSize: "30", rotation: 0 }]);
       setTimeout(draw, 100);
       return;
     };
@@ -40,7 +46,7 @@
     let w = [];
     for (let i=0; i<size; i++) {
       let id = (Math.random() + 1).toString(36).substring(2);
-      w.push({ id, ctx: undefined, size: "w-[350px]", textSize: "2xl", rotation: 0 });
+      w.push({ id, ctx: undefined, size: sizeWidth[size] +"px", textSize: "18", rotation: 0 });
     }
     wheels.set(w);
 
