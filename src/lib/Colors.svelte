@@ -19,7 +19,6 @@
   const close = () => {
     colorPopup.set(false);
   }
-  
 </script>
 
 <div class="absolute inset-0 z-20 bg-black/30 grid place-items-center w-screen" transition:fade={{duration:200}}>

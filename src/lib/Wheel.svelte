@@ -36,8 +36,7 @@
     $wheels.forEach(w => {
       drawWheel(e, w.ctx);
     });
-
-    groupSize.set(Math.min($groupSize, e.length));
+    if ($uniqueMode) groupSize.update(n => Math.min(n, e.length));
   });
 </script>
 

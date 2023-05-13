@@ -36,7 +36,9 @@
   }
   
   const uploadFile = async ({ detail: { acceptedFiles } }) => {
-    if (!acceptedFiles.length) return toast.error("Only .xlsx files are accepted. Try again...");
+    if (!acceptedFiles.length) {
+      return toast.error("Only .xlsx files are accepted. Try again...");
+    }
     
     disabled = true;
     const file = acceptedFiles[0];
