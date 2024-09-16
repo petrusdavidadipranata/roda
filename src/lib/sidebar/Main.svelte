@@ -13,7 +13,7 @@
 </script>
 
 <button
-  class="fa-solid fa-bars absolute top-4 right-7 text-gray-400 text-2xl hover:text-gray-500"
+  class="fa-solid fa-bars absolute top-4 right-7 text-blue-400 text-2xl hover:text-blue-500"
   on:click={openSidebar}
 ></button>
 

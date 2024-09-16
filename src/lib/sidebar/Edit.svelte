@@ -39,18 +39,18 @@
       {#each $entries as e, i (e.id)}
       <div
         transition:slide duration=500 easing=ease-in-out
-        class="flex overflow-hidden transition {i != $entries.length-1 ? "mb-4" : ""} border-2 border-gray-200 rounded-md {$advancedMode ? "divide-x-2": "divide-x"} divide-gray-200
-          hover:border-gray-300 focus-within:border-blue-400 hover:focus-within:border-blue-400 hover:divide-gray-300"
+        class="flex overflow-hidden transition {i != $entries.length-1 ? "mb-4" : ""} border-2 border-gray-600 rounded-md {$advancedMode ? "divide-x-2": "divide-x"} divide-gray-200
+          hover:border-gray-300 focus-within:border-green-400 hover:focus-within:border-green-400 hover:divide-gray-300"
         >
         <input class="px-3.5 py-1.5 outline-none grow" type="text" bind:value={e.name}>
         <input class="outline-none text-right {$advancedMode ? "w-12 px-3.5 py-1.5" : "w-0"} transition-all duration-500" type="number" min="0" max="100" bind:value={e.prob}>
-        <button class="fa-solid fa-trash text-gray-300 w-10 hover:bg-gray-300 hover:text-white transition" on:click={() => removeEntry(i)}></button>
+        <button class="fa-solid fa-trash text-red-500 w-10 hover:bg-gray-300 hover:text-red transition" on:click={() => removeEntry(i)}></button>
       </div>
       {/each}
     </div>
-    <button class="bg-gray-200 text-gray-600 px-4 py-1.5 rounded-md hover:bg-gray-300 transition float-right mr-6 mt-4" on:click={addEntry}>
+    <button class="bg-gray-200 text-green-600 px-4 py-1.5 rounded-md hover:bg-gray-300 transition float-right mr-6 mt-4" on:click={addEntry}>
       <i class="fa-solid fa-plus"></i>
-      Add Entry
+      Tambah Entry
     </button>
   </div>
 </div>

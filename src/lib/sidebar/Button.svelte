@@ -12,7 +12,7 @@
       : "bg-gray-200 hover:bg-gray-300";
 </script>
 
-<button class="{color} text-gray-600 px-4 py-1.5 rounded-md transition" on:click>
+<button class="{color} text-blue-600 px-4 py-1.5 rounded-md transition" on:click>
   <i class="fa-solid fa-{icon} mr-1" />
   {text}
 </button>

@@ -6,14 +6,10 @@ export let defEntries = [
   { name: "Beatriz", prob: 1, id: Math.random() },
   { name: "Charles", prob: 1, id: Math.random() },
   { name: "Diya", prob: 1, id: Math.random() },
-  { name: "Eric", prob: 1, id: Math.random() },
-  { name: "Fatima", prob: 1, id: Math.random() },
-  { name: "Gabriel", prob: 1, id: Math.random() },
-  { name: "Hanna", prob: 1, id: Math.random() }
 ]
 
 export let defColors = [
-  { val: "#009925", id: Math.random() },
+  { val: "#0099bb", id: Math.random() },
   { val: "#eeb211", id: Math.random() },
   { val: "#d50f25", id: Math.random() },
   { val: "#3369e8", id: Math.random() }

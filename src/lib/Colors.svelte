@@ -25,7 +25,7 @@
   <div class="px-10 w-full">
     <div class="sm:w-[34rem] z-100 rounded-xl overflow-hidden text-left mx-auto">
       <div class="flex justify-between items-center px-6 py-4 text-xl text-white bg-blue-600">
-        <h1>Edit Color Scheme</h1>
+        <h1>Edit Skema Warna</h1>
         <button class="fa-solid fa-xmark hover:text-gray-200" on:click={close} />
       </div>
       <div class="py-4 bg-white">

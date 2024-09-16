@@ -59,11 +59,11 @@
         {#if $groupMode}
         <ul class="flex flex-col gap-3 mb-4" transition:slide>
           <li class="flex justify-between items-center">
-            <p>Enable Unique Results</p>
+            <p>Aktifkan Hasil Unik</p>
             <Switch bind:checked={$uniqueMode}/>
           </li>
           <li class="flex justify-between items-center">
-            <p>Group Size</p>
+            <p>Jumlh Group</p>
             <input
               class="w-24 px-3.5 py-1.5 outline-none overflow-hidden border-2 border-gray-200 rounded-md hover:border-gray-300 focus:border-blue-400 hover:focus:border-blue-400"
               type="number"

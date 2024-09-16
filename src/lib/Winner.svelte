@@ -38,7 +38,7 @@
         class="flex justify-between items-center px-6 py-4 text-xl text-white"
         style="background-color: {$winnerIndex.length == 1 ? $entries[$winnerIndex[0]]?.color : "#2563eb"}"
       >
-        <h1>We have {$winnerIndex.length == 1 ? "a winner!" : $winnerIndex.length + " winners!"}</h1>
+        <h1>Kita sudah {$winnerIndex.length == 1 ? "punya pemenang!" : $winnerIndex.length + " winners!"}</h1>
         <button class="fa-solid fa-xmark hover:text-gray-200" on:click={close}></button>
       </div>
       <div class="px-[1.125rem] py-4 bg-white">

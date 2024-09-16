@@ -2,8 +2,8 @@
   import { entries, results, editTab, resultsTab, sidebarActive } from "$lib/stores.js";
 
   $: tabs = [
-    { name: "Entries", active: $editTab, list: $entries },
-    { name: "Results", active: $resultsTab, list: $results }
+    { name: "Peserta", active: $editTab, list: $entries },
+    { name: "Hasil", active: $resultsTab, list: $results }
   ]
 </script>
 
